@@ -1,6 +1,6 @@
 import { Component, OnInit }   from '@angular/core';
 import { TodoService } from '../services/todo.service';
-import { MsalService}  from '../services/msal.service';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
     templateUrl: './todo.html',
@@ -17,9 +17,11 @@ export class TodoComponent implements OnInit{
 	newTodoCaption = "";
 	baseId = 0;
 
+	B2CTodoAccessTokenKey = "b2c.todo.access.token";
+
     constructor(
      	private todoListService: TodoService,
-		private msalService: MsalService
+		private authService: MsalService
     ){}
 
 	ngOnInit() {
@@ -31,8 +33,8 @@ export class TodoComponent implements OnInit{
 	};
 
 	getAccessTokenFromCache(): boolean {
-		if (sessionStorage.hasOwnProperty(this.msalService.B2CTodoAccessTokenKey) && sessionStorage[this.msalService.B2CTodoAccessTokenKey] !== "") {
-			this.access_token = sessionStorage[this.msalService.B2CTodoAccessTokenKey];
+		if (sessionStorage.hasOwnProperty(this.B2CTodoAccessTokenKey) && sessionStorage[this.B2CTodoAccessTokenKey] !== "") {
+			this.access_token = sessionStorage[this.B2CTodoAccessTokenKey];
 			return true;
 		} 
 		return false;
